@@ -206,6 +206,7 @@ function go(data){
 
 
 }
+alert('va so')
         var socket = io.connect('http://usamexgps.com:3000');
      
              socket.on('message1', function (data) {
@@ -215,7 +216,7 @@ function go(data){
                     $(".time"+device_id).timer('remove');
                                 $(".time"+device_id).timer(); 
                 });
-              
+   alert('ter so')           
         $('#devicesList').listview('refresh');
         $('#boxesList').listview('refresh');
         $('#tabs').tabs('refresh');
