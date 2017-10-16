@@ -182,7 +182,7 @@ $(function() {
                     $('#'+sendTo).append('<li><a    id="seeDevice"  >'+device.name+'</a></li>')
                 }
         })
-        
+        alert('va go')
 function go(data){
     $('.lat_'+data.device_id).html(data.lat)
     //console.log(data.device_id) 
