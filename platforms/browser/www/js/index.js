@@ -38,13 +38,62 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+        function getLoggin(token,callback){
+    console.log('enviando post login')
+    $.ajax({ 
+        url:'http://usamexgps.com/api/user',
+        type:'GET',
+        headers: { "Authorization": "Bearer "+token+"" },
+        success: function(r){
+            $.mobile.changePage('#home',{reverse:false,transition:'slide'});
+                callback(r);
+            },
+        error: function(data){ 
+            $(':mobile-pagecontainer').pagecontainer('change', '#login', {
+                    transition: 'flip',
+                    changeHash: false,
+                    reverse: true,
+                    showLoadMsg: true
+                });
+            }
+        })
+}
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
-    }
+        $(function() {
+            function printData(data){
+                alert('logeado')
+            }
+            $('#loginBtn').click(function(e){
+                    console.log('enviando post login por formulario')
+                    alert('enviando')
+                    e.preventDefault();
+                    email = $('#mail').val()
+                    pass = $('#password').val()
+                    con = "application/x-www-form-urlencoded; charset=utf-8"
+                    $.ajax({ 
+                        url:'http://usamexgps.com/api/authenticate',
+                        type:'POST',
+                        data: { email: email,password:pass },
+                        success: function(r){ console.log(r)
+                            localStorage.setItem('token',r['token'])
+                            getLoggin(r['token'], function(num) {
+                                printData(num)
+                            });
+                            
+                        },
+                        error: function(data){
+                            console.log('error login')
+                            $('#bad').removeClass('none')
+                           $(':mobile-pagecontainer').pagecontainer('change', '#index', {
+                                transition: 'flip',
+                                changeHash: false,
+                                reverse: true,
+                                showLoadMsg: true
+                            });
+                        }
+                    })
+                    return false;
+                });
+        }); 
+    } // termina receivent event
 };
