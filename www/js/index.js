@@ -209,7 +209,7 @@ function go(data){
 }
 alert('va so')
         var socket = io.connect('http://usamexgps.com:3000');
-     
+     alert(socket)
              socket.on('message1', function (data) {
                  device_id =   data.device_id
                  go(data)
