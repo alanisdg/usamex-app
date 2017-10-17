@@ -78,7 +78,7 @@ if(localStorage.token != ''){ getLoggin(localStorage.token, function(num) { prin
 $(function() {
     $('#loginBtn').click(function(e){
         console.log('enviando post login por formulario')
-        alert('enviando')
+     
         e.preventDefault();
         email = $('#mail').val()
         pass = $('#password').val()
@@ -182,8 +182,7 @@ $(function() {
                 }else{
                     $('#'+sendTo).append('<li><a    id="seeDevice"  >'+device.name+'</a></li>')
                 }
-        })
-        alert('va go')
+        }) 
 function go(data){
     $('.lat_'+data.device_id).html(data.lat)
     //console.log(data.device_id) 
@@ -206,10 +205,9 @@ function go(data){
     })
 
 
-}
-alert('va so')
+} 
         var socket = io.connect('http://usamexgps.com:3000');
-     alert(socket)
+     
              socket.on('message1', function (data) {
                  device_id =   data.device_id
                  go(data)
@@ -217,7 +215,7 @@ alert('va so')
                     $(".time"+device_id).timer('remove');
                                 $(".time"+device_id).timer(); 
                 });
-   alert('ter so')           
+      
         $('#devicesList').listview('refresh');
         $('#boxesList').listview('refresh');
         $('#tabs').tabs('refresh');
