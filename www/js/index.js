@@ -38,6 +38,7 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
+        console.log('comienza')
  SlidingMarker.initializeGlobally();
 
     var marker, map;
