@@ -16,15 +16,23 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-* {
+* { 
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+.left{
+    float: left;
+}
+.right{
+    float: right;
 }
 .center{
         width: 80% !important;
     margin: 0 auto !important;
 }
 #container-login{
-    
+        width: 75%;
+    /* top: 98px; */
+    margin: 80px auto;
 }
 #bad{
     color: red

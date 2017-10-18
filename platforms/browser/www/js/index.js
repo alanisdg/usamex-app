@@ -174,9 +174,9 @@ $(function() {
                      
                                     
 
-
                 console.log(engine)
-                $('#'+sendTo).append('<li><a lat="'+device.lastpacket.lat+'"  lng="'+device.lastpacket.lng+'" name="'+device.name+'"  device_id="'+device.id+'"  class="seeDevice"   > '+device.name+' <span class="'+class_timer+' time'+device.id+'">'+a+'</span> '+engine+movement+'</a></li>')
+                $('#'+sendTo).append('<li><div class="left"><a lat="'+device.lastpacket.lat+'"  lng="'+device.lastpacket.lng+'" name="'+device.name+'"  device_id="'+device.id+'"  class="seeDevice"   >'+device.name+'</div><div class="right">'+engine+movement+' <span class="'+class_timer+' time'+device.id+'">'+a+'</span>  </div></a> </li>'
+)
                 
                 $(".time"+device.id).timer({ seconds: a, });
                 }else{
@@ -204,7 +204,7 @@ function go(data){
       }
     })
 
-
+ 
 } 
         var socket = io.connect('http://usamexgps.com:3000');
      
