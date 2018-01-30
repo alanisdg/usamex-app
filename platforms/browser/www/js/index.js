@@ -27,18 +27,44 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.addEventListener("resume", this.onResume, false);
     },
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
+    onResume: function() {
+        //cuando inicia de nuevo
+        //alert('resume')
+    },
     onDeviceReady: function() {
         
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        console.log('comienza')
+
+        $('#logout').click(function(){
+         
+            localStorage.removeItem('token');
+            $.mobile.changePage('#login',{reverse:false,transition:'slide'});
+            $.ajax({ 
+                url:'http://localhost/api/logout',
+                //url:'http://usamexgps.com/api/logout',
+                type:'POST',
+                data: { token: localStorage.token },
+                success: function(r){
+                alert(r) 
+                    console.log(r)
+                    
+                     
+                    
+                },
+                error: function(data){
+                    console.log(data)
+                }
+            })
+        })
  SlidingMarker.initializeGlobally();
 
     var marker, map;
@@ -53,12 +79,14 @@ var app = {
                 mwl = []
 function getLoggin(token,callback){
     console.log('enviando post login')
+    console.log(token)
     $.ajax({ 
         url:'http://usamexgps.com/api/user',
         type:'GET',
         headers: { "Authorization": "Bearer "+token+"" },
         success: function(r){
             $.mobile.changePage('#home',{reverse:false,transition:'slide'});
+                $('.loading').addClass('none') 
                 callback(r);
             },
         error: function(data){ 
@@ -73,12 +101,18 @@ function getLoggin(token,callback){
 }
 
 
-if(localStorage.token != ''){ getLoggin(localStorage.token, function(num) { printData(num) }); }
+if(localStorage.token != ''){ 
+    console.log('aun');
+    console.log(localStorage);
+    //localStorage.removeItem('token')
+    getLoggin(localStorage.token, function(num) {
+    printData(num) 
+}); }
 
 $(function() {
     $('#loginBtn').click(function(e){
         console.log('enviando post login por formulario')
-     
+        $('.loading').removeClass('none');
         e.preventDefault();
         email = $('#mail').val()
         pass = $('#password').val()
@@ -87,7 +121,9 @@ $(function() {
             url:'http://usamexgps.com/api/authenticate',
             type:'POST',
             data: { email: email,password:pass },
-            success: function(r){ console.log(r)
+            success: function(r){ 
+                //console.log(r)
+                
                 localStorage.setItem('token',r['token'])
                 getLoggin(r['token'], function(num) {
                     printData(num)
@@ -97,6 +133,7 @@ $(function() {
             error: function(data){
                 console.log('error login')
                 $('#bad').removeClass('none')
+                $('.loading').addClass('none');
                $(':mobile-pagecontainer').pagecontainer('change', '#index', {
                     transition: 'flip',
                     changeHash: false,
@@ -110,7 +147,7 @@ $(function() {
 }); 
 
     function printData(data){ 
-        console.log(data)
+        //console.log(data)
         $.each(data['devices'],function(dev, device){
             if(device.type_id == 1){
                     sendTo = 'devicesList'
@@ -132,7 +169,7 @@ $(function() {
                                 name: device.name,
                                 map:map
                             });
-
+/*
                 var label = new MarkerWithLabel({
                             position: myLatlng,
 
@@ -143,10 +180,34 @@ $(function() {
                             labelStyle: {opacity: 0.75},
                             id: device.id,
                             map:map
-                        });
+                        }); */
+
+                var myOptionsLabel = {
+                                 content: device.name
+                                ,boxStyle: {
+                                    background: "white",
+                                    borderRadius:"3px",
+                                   border: "1px solid grey",
+                                  textAlign: "center",
+                                  opacity:0.75
+                                  ,fontSize: "8pt"
+                                  ,width: "100px"
+                                 }
+                                ,disableAutoPan: true
+                                ,pixelOffset: new google.maps.Size(-25, 0)
+                                ,position: myLatlng
+                                ,closeBoxURL: ""
+                                ,isHidden: false
+                                ,pane: "mapPane"
+                                ,enableEventPropagation: true
+                            };
+
+                            var ibLabel = new InfoBox(myOptionsLabel);
+                            ibLabel.open(map, marker);
+
+
                 m.push(marker)
-                mwl.push(label)
-                console.log(label)
+               // mwl.push(label) 
                 time = moment(device.lastpacket.updateTime);
                 CurrentDate = moment()
                 a = CurrentDate.diff(time, 'seconds'); 
@@ -157,34 +218,52 @@ $(function() {
                 }else{
                     class_timer = ''
                 }
-                console.log(device.engine)
+                //console.log(device.engine)
                 if(device.engine == 1){
-                    engine = '<span class="engine10  icon-engine leicon green"></span>'
+                    engine = '<span class="engine'+device.id+'  icon-engine leicon green"></span>'
                 }else if(device.engine == 0){
-                    engine = '<span class="engine10  icon-engine shutdown" ></span>'
+                    engine = '<span class="engine'+device.id+'  icon-engine shutdown" ></span>'
                 }
 
                 head = device.lastpacket.heading + ' --'
-                console.log(head)
+                //console.log(head)
                 if(device.stop == 0){
-                    movement = '<span class="icon-arrow-circle-up move fa-rotate-'+ head +' leicon green" data-toggle="tooltip" data-placement="top" title="Unidad en movimiento"></span> '
+                    movement = '<span class="icon-arrow-circle-up move'+device.id+' fa-rotate-'+ head +' leicon green" data-toggle="tooltip" data-placement="top" title="Unidad en movimiento"></span> '
                 }else{
-                    movement = '<span class="icon-arrow-circle-up move fa-rotate-'+ head +' leicon shutdown" data-toggle="tooltip" data-placement="top" title="Unidad detenida"></span> '
+                    movement = '<span class="icon-arrow-circle-up move'+device.id+' fa-rotate-'+ head +' leicon shutdown" data-toggle="tooltip" data-placement="top" title="Unidad detenida"></span> '
                 }
-                     
-                                    
+                unplugged = ''
+                if(device.unplugged == 0)  {
+                    unplugged = '<span data-toggle="tooltip" data-placement="top" title="Equipo desconectado"  class="glyphicon unplugged'+device.id+' icon-plug red  none " aria-hidden="true"></span>' 
+                } 
 
-                console.log(engine)
-                $('#'+sendTo).append('<li><div class="left"><a lat="'+device.lastpacket.lat+'"  lng="'+device.lastpacket.lng+'" name="'+device.name+'"  device_id="'+device.id+'"  class="seeDevice"   >'+device.name+'</div><div class="right">'+engine+movement+' <span class="'+class_timer+' time'+device.id+'">'+a+'</span>  </div></a> </li>'
-)
+                if(device.unplugged == 1)  {
+                    unplugged = '<span data-toggle="tooltip" data-placement="top" title="Equipo desconectado"  class="glyphicon unplugged'+device.id+' icon-plug red   " aria-hidden="true"></span>' 
+                } 
+                                    
+              //  '<li><div class="left"><a lat="'+device.lastpacket.lat+'"  lng="'+device.lastpacket.lng+'" name="'+device.name+'"  device_id="'+device.id+'"  class="seeDevice"   >'+device.name+'</div><div class="right">'+engine+movement+' <span class="'+class_timer+' time'+device.id+'">'+a+'</span>  </div></a> </li>'
+
+                //console.log(engine)
+                $('#'+sendTo).append('<li><a class="dev'+device.id+' seeDevice seeDeviceStyle '+device.id+'" unplugged="'+device.unplugged+'" head="'+device.lastpacket.heading+'" stop="'+device.stop+'" engine="'+device.engine+'" lat="'+device.lastpacket.lat+'" speed="'+device.lastpacket.speed+'"  lng="'+device.lastpacket.lng+'" time="'+device.lastpacket.updateTime+'" name="'+device.name+'"  device_id="'+device.id+'"  > <span class="device_name"> '+device.name+' </span> '+engine+ ' ' + movement+' '+unplugged+' <span class="'+class_timer+' eltime time'+device.id+'">'+a+'</span> </a></li>')
                 
                 $(".time"+device.id).timer({ seconds: a, });
                 }else{
-                    $('#'+sendTo).append('<li><a    id="seeDevice"  >'+device.name+'</a></li>')
+                    $('#'+sendTo).append('<li><a    class="seeDeviceStyle"  >'+device.name+' Equipo nuevo </a></li>')
                 }
         }) 
+
+var markerCluster = new MarkerClusterer(map, m, {
+              averageCenter: true,
+              gridSize:30
+            });
 function go(data){
     $('.lat_'+data.device_id).html(data.lat)
+    $('.speed_'+data.device_id).html(data.Speed + ' k/h')
+    //console.log("$('.speed_'"+data.device_id+".html("+data.Speed+")")
+    $(".time_"+data.device_id).timer('remove');
+                    $(".time_"+data.device_id).timer(); 
+
+
     //console.log(data.device_id) 
     $.each(m,function(id, dev){
       //  console.log(dev.id)
@@ -204,7 +283,54 @@ function go(data){
       }
     })
 
- 
+        $('.move'+data.device_id).removeClass('fa-rotate-'+data.previous_heading)
+        $('.move'+data.device_id).addClass('fa-rotate-'+data.Heading)
+        
+        if(data.stop==1){
+            $('.move'+data.device_id).removeClass('green')
+            $('.move'+data.device_id).addClass('shutdown') 
+        }     
+        if(data.stop==0){
+            $('.move'+data.device_id).removeClass('shutdown')
+            $('.move'+data.device_id).addClass('green') 
+        }   
+        if(data.EventCode == 20){
+            console.log('CAMBIOOO')
+            $('.engine'+data.device_id).removeClass('green')
+            $('.engine'+data.device_id).addClass('shutdown')
+        }
+
+        if(data.EventCode == 21){
+            console.log('CAMBIOOO')
+            $('.engine'+data.device_id).removeClass('shutdown')
+            $('.engine'+data.device_id).addClass('green')
+        }
+
+        if(data.EventCode == 68){
+                                //DESCONEXION
+                                console.log('.unplugged'+data.device_id)
+                               $('.unplugged'+data.device_id).removeClass('none')
+                            }
+
+
+                            if(data.EventCode == 61){
+                                //DESCONEXION
+                               $('.panic'+data.device_id).show()
+                            }
+
+                            if(data.EventCode == 60){
+                                //DESCONEXION
+                               $('.panic'+data.device_id).show()
+                            }
+
+                            if(data.EventCode == 69){
+                                //CONEXION
+                                $('.unplugged'+data.device_id).addClass('none')
+                               
+                            }
+
+
+
 } 
         var socket = io.connect('http://usamexgps.com:3000');
      
@@ -213,7 +339,20 @@ function go(data){
                  go(data)
                  
                     $(".time"+device_id).timer('remove');
-                                $(".time"+device_id).timer(); 
+                    $(".time"+device_id).timer(); 
+                    $(".dev"+device_id).attr('lat',data.lat)
+                    $(".dev"+device_id).attr('lng',data.lng)
+                    $(".dev"+device_id).attr('time',data.updateTime)
+                    $(".dev"+device_id).attr('speed',data.Speed)
+                    $(".dev"+device_id).attr('stop',data.stop)
+                    $(".dev"+device_id).attr('head',data.Heading)
+                    if(data.EventCode == 21){
+                        $(".dev"+device_id).attr('engine',1)
+                    }
+                    if(data.EventCode == 20){
+                        $(".dev"+device_id).attr('engine',0)
+                    }
+                    
                 });
       
         $('#devicesList').listview('refresh');
@@ -225,16 +364,27 @@ function go(data){
             return b;
         }
         $('.seeDevice').click(function(e){    
-           
+           //console.log(' dee')
+           $('#time').removeClass('time_'+localStorage.device_id)
+           $('#speed').removeClass('speed_'+localStorage.device_id + ' k/h')
+           $('#lat').removeClass('lat_'+localStorage.device_id)
             localStorage.name = $(this).attr('name');
             localStorage.lat = $(this).attr('lat');
             localStorage.lng = $(this).attr('lng');
+            localStorage.speed = $(this).attr('speed');
             localStorage.device_id = $(this).attr('device_id');
+            localStorage.time = $(this).attr('time');
+            localStorage.engine = $(this).attr('engine');
+            localStorage.stop = $(this).attr('stop');
+            localStorage.head = $(this).attr('head');
+            localStorage.unplugged = $(this).attr('unplugged');
+            
+
              
              $.mobile.changePage('#showDevice',{reverse:false,transition:'slide' });
              google.maps.event.trigger(map, 'resize'); 
             map.panTo(new google.maps.LatLng($(this).attr('lat'), $(this).attr('lng')));
- console.log('map.panTo(new google.maps.LatLng('+ $(this).attr("lat") +','+ $(this).attr("lng") +'));')
+ //console.log('map.panTo(new google.maps.LatLng('+ $(this).attr("lat") +','+ $(this).attr("lng") +'));')
             
            
 
@@ -251,12 +401,53 @@ $(document).on("pageshow", "#showDevice", function() {
 
 $(document).on("pagebeforeshow", "#showDevice", function() { 
     $('#name').html(localStorage.name)
+
+    $('#speed').html(localStorage.speed+ ' k/h')
+    $('#speed').addClass('speed_' + localStorage.device_id)
     $('#lat').html(localStorage.lat)
     $('#lat').addClass('lat_'+localStorage.device_id)
-    console.log(localStorage.name)
+
+    if(localStorage.unplugged == 1){
+        $('#unplugged').show()
+    }
+
+    if(localStorage.unplugged == 0)  {
+                     $('#unplugged').html('<span data-toggle="tooltip" data-placement="top" title="Equipo desconectado"  class="glyphicon unplugged'+localStorage.device_id+' icon-plug red  none " aria-hidden="true"></span>')
+                } 
+
+                if(localStorage.unplugged == 1)  {
+                    $('#unplugged').html('<span data-toggle="tooltip" data-placement="top" title="Equipo desconectado"  class="glyphicon unplugged'+localStorage.device_id+' icon-plug red   " aria-hidden="true"></span>' )
+                } 
+
+
+    if(localStorage.stop == 0){
+                    $('#stop').html('<span style="font-size:25px" class="icon-arrow-circle-up move'+localStorage.device_id+' fa-rotate-'+ localStorage.head +' leicon green" data-toggle="tooltip" data-placement="top" title="Unidad en movimiento"></span> ')
+                }else{
+                    $('#stop').html('<span style="font-size:25px" class="icon-arrow-circle-up move'+localStorage.device_id+' fa-rotate-'+ localStorage.head +' leicon shutdown" data-toggle="tooltip" data-placement="top" title="Unidad detenida"></span> ')
+                }
+                    
+
+
+    if(localStorage.engine == 0){
+       $('#engine').html('<span style="font-size:25px" class="engine'+localStorage.device_id+'  icon-engine leicon shutdown"></span>')
+    }else if(localStorage.engine== 1){
+       $('#engine').html('<span style="font-size:25px"  class="engine'+localStorage.device_id+'  icon-engine leicon green"></span>')
+    }
+
+    
+    $('#time').addClass('time_'+localStorage.device_id)
+    $('#time').addClass('subtitle')
+
+    time = moment(localStorage.time);
+    CurrentDate = moment()
+    a = CurrentDate.diff(time, 'seconds'); 
+    //console.log(a)
+    $("#time").timer('remove');
+        $('#time').timer({ seconds: a, })
+
 
     
    
  });
-    } // termina receivent event
+    } // termina receivent event 
 };

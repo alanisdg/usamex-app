@@ -13,9 +13,6 @@
         "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
         },
-        "cordova-plugin-media-capture": {
-            "PACKAGE_NAME": "com.phonegap.helloworld"
-        },
         "cordova-plugin-console": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
         },
@@ -49,7 +46,13 @@
         "cordova-plugin-media": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
         },
+        "cordova-plugin-media-capture": {
+            "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
         "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
+        "cordova-plugin-spinner": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
         },
         "cordova-plugin-splashscreen": {

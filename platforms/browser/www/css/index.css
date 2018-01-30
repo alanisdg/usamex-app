@@ -16,11 +16,271 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+ .login_page{
+ }
+.ui-header .ui-title{
+    padding: 12px 0;
+}
+
+/* Absolute Center Spinner */
+.loading {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* :not(:required) hides these rules from IE9 and below */
+.loading:not(:required) {
+  /* hide "loading..." text */
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+.loading:not(:required):after {
+  content: '';
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  -webkit-animation: spinner 1500ms infinite linear;
+  -moz-animation: spinner 1500ms infinite linear;
+  -ms-animation: spinner 1500ms infinite linear;
+  -o-animation: spinner 1500ms infinite linear;
+  animation: spinner 1500ms infinite linear;
+  border-radius: 0.5em;
+  -webkit-box-shadow: rgba(90, 90, 90, 0.75) 1.1em 1.1em 0 0, rgba(90, 90, 90, 0.75) 1.1em 1.1em 0 0, rgba(83, 83, 83, 0.75) 0 1.5em 0 0, rgba(75, 75, 75, 0.75) -1.1em 1.1em 0 0, rgba(65, 65, 65, 0.75) -1.5em 0 0 0, rgba(53, 53, 53, 0.75) -1.1em -1.1em 0 0, rgba(38, 38, 38, 0.75) 0 -1.5em 0 0, rgba(34, 34, 34, 0.75) 1.1em -1.1em 0 0;
+  box-shadow: rgba(90, 90, 90, 0.75) 1.1em 1.1em 0 0, rgba(90, 90, 90, 0.75) 1.1em 1.1em 0 0, rgba(83, 83, 83, 0.75) 0 1.5em 0 0, rgba(75, 75, 75, 0.75) -1.1em 1.1em 0 0, rgba(65, 65, 65, 0.75) -1.5em 0 0 0, rgba(53, 53, 53, 0.75) -1.1em -1.1em 0 0, rgba(38, 38, 38, 0.75) 0 -1.5em 0 0, rgba(34, 34, 34, 0.75) 1.1em -1.1em 0 0;
+}
+
+/* Animation */
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+ .ui-page{
+    background-color: #1a1e24;
+ }
+ .label{
+        color: white;
+    padding-top: 10px;
+ }
+.loginbutton{
+    margin: 15px 0;
+    background-color: #008aff !important;
+    color: white !important;
+    text-shadow: none !important;
+    border: none !important;
+}
+#demo-page #left-panel.ui-panel {
+    width: 15em;
+}
+#demo-page #left-panel.ui-panel-closed {
+    width: 0;
+}
+#demo-page .ui-panel-position-left.ui-panel-display-reveal {
+    left: 0;
+}
+#demo-page .ui-panel-content-wrap-position-left.ui-panel-content-wrap-open,
+.ui-panel-dismiss-position-left.ui-panel-dismiss-open {
+    left: 15em;
+    right: -15em;
+}
+#demo-page .ui-panel-animate.ui-panel-content-wrap-position-left.ui-panel-content-wrap-open.ui-panel-content-wrap-display-reveal {
+    left: 0;
+    right: 0;
+    -webkit-transform: translate3d(15em,0,0);
+    -moz-transform: translate3d(15em,0,0);
+    transform: translate3d(15em,0,0);
+}
+/* Combined listview collapsible menu. */
+/* Unset negative margin bottom on the listviews. */
+#left-panel .ui-panel-inner > .ui-listview { margin-bottom: 0; }
+/* Unset top and bottom margin on collapsible set. */
+#left-panel .ui-collapsible-set { margin: 0; }
+/* The first collapsible contains the collapsible set. Make it fit exactly in the collapsible content. */
+#left-panel .ui-panel-inner > .ui-collapsible > .ui-collapsible-content { padding-top: 0; padding-bottom: 0;  border-bottom: none; }
+/* Remove border top if a collapsible comes after a listview. */
+#left-panel .ui-panel-inner  > .ui-collapsible > .ui-collapsible-heading .ui-btn,
+#left-panel .ui-collapsible.ui-first-child .ui-collapsible-heading .ui-btn { border-top: none; }
+/* Give the first collapsible heading the same padding, i.e. same height, as the list items. */
+#left-panel .ui-collapsible-heading .ui-btn-inner { padding: .7em 40px .7em 15px; }
+/* Give the other collapsible headings the same padding and font-size as the list divider. */
+#left-panel .ui-collapsible-set .ui-collapsible-heading .ui-btn-inner { padding: .5em 40px .5em 15px; font-size: 14px; }
+/* Styling of the close button in both panels. */
+#demo-page .ui-panel-inner > .ui-listview .ui-first-child {
+    background: #eee;
+}
+/* Reveal menu shadow on top of the list items */
+#demo-page .ui-panel-display-reveal {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+#demo-page .ui-panel-content-wrap-position-left {
+    -webkit-box-shadow: -5px 0px 5px rgba(0,0,0,.15);
+    -moz-box-shadow: -5px 0px 5px rgba(0,0,0,.15);
+    box-shadow: -5px 0px 5px rgba(0,0,0,.15);
+}
+/* Use the ui-body class of your page theme (ui-body-d in this demo) to set a background image.
+This class will be added to the content wrapper, while the page itself gets the same background
+as the panel before opening the panel. */
+#demo-page .ui-body-d {
+    background-image: url(../../_assets/img/bg-pattern.png);
+    background-repeat: repeat-x;
+    background-position: left bottom;
+}
+/* Styling of the page contents */
+.article p {
+    margin: 0 0 1em;
+    line-height: 1.5;
+}
+.article p img {
+    max-width: 100%;
+}
+.article p:first-child {
+    text-align: center;
+}
+.article small {
+    display: block;
+    font-size: 75%;
+    color: #c0c0c0;
+}
+.article p:last-child {
+    text-align: right;
+}
+.article a.ui-btn {
+    margin-right: 2em;
+    -webkit-border-radius: .4em;
+    border-radius: .4em;
+}
+@media all and (min-width:769px) {
+    .article {
+        max-width: 994px;
+        margin: 0 auto;
+        padding-top: 4em;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+        -webkit-column-gap: 2em;
+        -moz-column-gap: 2em;
+        column-gap: 2em;
+    }
+    /* Fix for issue with buttons and form elements
+    if CSS columns are used on a page with a panel. */
+    .article a.ui-btn {
+        -webkit-transform: translate3d(0,0,0);
+    }
+}
+
+
+
+ @font-face{
+    font-family: 'ptsans';
+    src: url('fonts/ptsans.woff')
+ }
 * { 
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 .left{
     float: left;
+}
+.icon-arrow-circle-up {
+    display: inline-block;
+}
+
+.device_name{
+    width: 98px;
+    display: inline-block;
+    overflow: hidden;
+}
+#contentDevice{
+        padding: 15px;
+        background: #252b33 !important;
+    color: white
 }
 .right{
     float: right;
@@ -37,11 +297,18 @@
 #bad{
     color: red
 }
+.eltime{
+        color: grey;
+    font-size: 12px;
+}
+.ui-content {
+    background: #1a1e24
+}
 .none{
     display: none !important;
 }
 .red{
-    color: red
+    color: #fc5454;
 }
 .green{
     color: green
@@ -71,7 +338,34 @@ body {
     padding:0px; 
     width:100%;
 }
-
+.infoTable tr td {
+    padding: 5px;
+}
+.info{
+    width: 50%;
+    float: left;
+}
+.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper{
+    text-shadow:none !important;
+}
+.title{
+    color: blue
+}
+.title {
+    color: #7591ff;
+    font-size: 18px;
+}
+.subtitle {
+    color: #fff;
+    font-size: 18px;
+}
+.seeDeviceStyle{
+    font-family: ptsans;
+        background-color: #252b33 !important;
+    text-shadow:none !important;
+   color:white !important;
+        border-top: 1px solid #1d1d1d !important;
+}
  .tablist-left {
     width: 25%;
     display: inline-block;
