@@ -57,7 +57,9 @@
   background-color: transparent;
   border: 0;
 }
-
+.size25{
+    font-size: 25px;
+}
 .loading:not(:required):after {
   content: '';
   display: block;
@@ -341,6 +343,12 @@ body {
 .infoTable tr td {
     padding: 5px;
 }
+
+.infoTable  {
+    margin: 0 auto;
+}
+
+
 .info{
     width: 50%;
     float: left;

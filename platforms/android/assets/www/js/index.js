@@ -36,9 +36,10 @@ var app = {
     onResume: function() {
         //cuando inicia de nuevo
         //alert('resume')
+        
     },
     onDeviceReady: function() {
-        
+      
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
@@ -80,6 +81,7 @@ var app = {
 function getLoggin(token,callback){
     console.log('enviando post login')
     console.log(token)
+    $('.loading').removeClass('none');
     $.ajax({ 
         url:'http://usamexgps.com/api/user',
         type:'GET',
@@ -90,6 +92,8 @@ function getLoggin(token,callback){
                 callback(r);
             },
         error: function(data){ 
+            console.log('no login')
+            $('.loading').addClass('none') 
             $(':mobile-pagecontainer').pagecontainer('change', '#login', {
                     transition: 'flip',
                     changeHash: false,
@@ -214,7 +218,8 @@ $(function() {
                 eltime = getCurrentTime(a);
 
                 if(a > 3600){
-                    class_timer = 'red'
+                    class_timer = 'red';
+                    a = 'retrasado';
                 }else{
                     class_timer = ''
                 }
@@ -245,8 +250,12 @@ $(function() {
 
                 //console.log(engine)
                 $('#'+sendTo).append('<li><a class="dev'+device.id+' seeDevice seeDeviceStyle '+device.id+'" unplugged="'+device.unplugged+'" head="'+device.lastpacket.heading+'" stop="'+device.stop+'" engine="'+device.engine+'" lat="'+device.lastpacket.lat+'" speed="'+device.lastpacket.speed+'"  lng="'+device.lastpacket.lng+'" time="'+device.lastpacket.updateTime+'" name="'+device.name+'"  device_id="'+device.id+'"  > <span class="device_name"> '+device.name+' </span> '+engine+ ' ' + movement+' '+unplugged+' <span class="'+class_timer+' eltime time'+device.id+'">'+a+'</span> </a></li>')
+                if(a == 'retrasado'){
+
+                }else{
+                    $(".time"+device.id).timer({ seconds: a, });
+                }
                 
-                $(".time"+device.id).timer({ seconds: a, });
                 }else{
                     $('#'+sendTo).append('<li><a    class="seeDeviceStyle"  >'+device.name+' Equipo nuevo </a></li>')
                 }
@@ -328,30 +337,27 @@ function go(data){
                                 $('.unplugged'+data.device_id).addClass('none')
                                
                             }
-
-
-
 } 
-        var socket = io.connect('http://usamexgps.com:3000');
+
+var socket = io.connect('http://usamexgps.com:3000');
      
-             socket.on('message1', function (data) {
-                 device_id =   data.device_id
-                 go(data)
-                 
-                    $(".time"+device_id).timer('remove');
-                    $(".time"+device_id).timer(); 
-                    $(".dev"+device_id).attr('lat',data.lat)
-                    $(".dev"+device_id).attr('lng',data.lng)
-                    $(".dev"+device_id).attr('time',data.updateTime)
-                    $(".dev"+device_id).attr('speed',data.Speed)
-                    $(".dev"+device_id).attr('stop',data.stop)
-                    $(".dev"+device_id).attr('head',data.Heading)
-                    if(data.EventCode == 21){
-                        $(".dev"+device_id).attr('engine',1)
-                    }
-                    if(data.EventCode == 20){
-                        $(".dev"+device_id).attr('engine',0)
-                    }
+socket.on('message1', function (data) {
+    device_id =   data.device_id
+    go(data)
+    $(".time"+device_id).timer('remove');
+    $(".time"+device_id).timer(); 
+    $(".dev"+device_id).attr('lat',data.lat)
+    $(".dev"+device_id).attr('lng',data.lng)
+    $(".dev"+device_id).attr('time',data.updateTime)
+    $(".dev"+device_id).attr('speed',data.Speed)
+    $(".dev"+device_id).attr('stop',data.stop)
+    $(".dev"+device_id).attr('head',data.Heading)
+    if(data.EventCode == 21){
+        $(".dev"+device_id).attr('engine',1)
+    }
+    if(data.EventCode == 20){
+        $(".dev"+device_id).attr('engine',0)
+    }
                     
                 });
       
@@ -412,11 +418,11 @@ $(document).on("pagebeforeshow", "#showDevice", function() {
     }
 
     if(localStorage.unplugged == 0)  {
-                     $('#unplugged').html('<span data-toggle="tooltip" data-placement="top" title="Equipo desconectado"  class="glyphicon unplugged'+localStorage.device_id+' icon-plug red  none " aria-hidden="true"></span>')
+                     $('#unplugged').html('<span data-toggle="tooltip" data-placement="top" title="Equipo desconectado"  class="glyphicon unplugged'+localStorage.device_id+' icon-plug red  none size25" aria-hidden="true"></span>')
                 } 
 
                 if(localStorage.unplugged == 1)  {
-                    $('#unplugged').html('<span data-toggle="tooltip" data-placement="top" title="Equipo desconectado"  class="glyphicon unplugged'+localStorage.device_id+' icon-plug red   " aria-hidden="true"></span>' )
+                    $('#unplugged').html('<span data-toggle="tooltip" data-placement="top" title="Equipo desconectado"  class="glyphicon unplugged'+localStorage.device_id+' icon-plug red  size25 " aria-hidden="true"></span>' )
                 } 
 
 
