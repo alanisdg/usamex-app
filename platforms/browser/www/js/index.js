@@ -94,6 +94,8 @@ function getLoggin(token,callback){
         error: function(data){ 
             console.log('no login')
             $('.loading').addClass('none') 
+            $('#mail').val(localStorage.mail)
+            $('#password').val(localStorage.password)
             $(':mobile-pagecontainer').pagecontainer('change', '#login', {
                     transition: 'flip',
                     changeHash: false,
@@ -129,6 +131,8 @@ $(function() {
                 //console.log(r)
                 
                 localStorage.setItem('token',r['token'])
+                localStorage.setItem('mail',email)
+                localStorage.setItem('password',pass)
                 getLoggin(r['token'], function(num) {
                     printData(num)
                 });
@@ -216,11 +220,28 @@ $(function() {
                 CurrentDate = moment()
                 a = CurrentDate.diff(time, 'seconds'); 
                 eltime = getCurrentTime(a);
-
-                if(a > 3600){
+                status_time = ''
+                if(a > 3600 && a <= 86400){
                     class_timer = 'red';
-                    a = 'retrasado';
-                }else{
+                    // a = 'retrasado';
+                    var b = moment();
+                    minutos = a / 60;
+                    b.subtract({minutes: minutos });
+                    console.log(b.fromNow())
+                }else if(a > 86400){
+                    class_timer = 'red';
+                    minutos = a / 60;
+                    horas  = minutos / 60;
+                    dias = horas / 24;
+                    console.log('dias ' + dias + ' ' + device.name)
+                    ro = Math.floor(dias)
+                    console.log(' a' + ro)
+                    var b = moment();
+                    b.subtract({days: ro });
+                    a = b.fromNow()
+                    status_time = 'days'
+                    
+                }else if(a < 3600){
                     class_timer = ''
                 }
                 //console.log(device.engine)
@@ -250,7 +271,7 @@ $(function() {
 
                 //console.log(engine)
                 $('#'+sendTo).append('<li><a class="dev'+device.id+' seeDevice seeDeviceStyle '+device.id+'" unplugged="'+device.unplugged+'" head="'+device.lastpacket.heading+'" stop="'+device.stop+'" engine="'+device.engine+'" lat="'+device.lastpacket.lat+'" speed="'+device.lastpacket.speed+'"  lng="'+device.lastpacket.lng+'" time="'+device.lastpacket.updateTime+'" name="'+device.name+'"  device_id="'+device.id+'"  > <span class="device_name"> '+device.name+' </span> '+engine+ ' ' + movement+' '+unplugged+' <span class="'+class_timer+' eltime time'+device.id+'">'+a+'</span> </a></li>')
-                if(a == 'retrasado'){
+                if(status_time == 'days'){
 
                 }else{
                     $(".time"+device.id).timer({ seconds: a, });
@@ -270,6 +291,7 @@ function go(data){
     $('.speed_'+data.device_id).html(data.Speed + ' k/h')
     //console.log("$('.speed_'"+data.device_id+".html("+data.Speed+")")
     $(".time_"+data.device_id).timer('remove');
+    $(".time_"+data.device_id).removeClass('red');
                     $(".time_"+data.device_id).timer(); 
 
 
@@ -344,8 +366,13 @@ var socket = io.connect('http://usamexgps.com:3000');
 socket.on('message1', function (data) {
     device_id =   data.device_id
     go(data)
+    if(device_id == '261'){
+        console.log('$(".time'+device_id+'").timer("remove")')
+        console.log('$(".time'+device_id+'").timer()')
+    }
     $(".time"+device_id).timer('remove');
     $(".time"+device_id).timer(); 
+    $(".time"+device_id).removeClass('red'); 
     $(".dev"+device_id).attr('lat',data.lat)
     $(".dev"+device_id).attr('lng',data.lng)
     $(".dev"+device_id).attr('time',data.updateTime)
