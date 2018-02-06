@@ -525,6 +525,14 @@ module.exports = [
         "clobbers": [
             "SpinnerPlugin"
         ]
+    },
+    {
+        "id": "onesignal-cordova-plugin.OneSignal",
+        "file": "plugins/onesignal-cordova-plugin/www/OneSignal.js",
+        "pluginId": "onesignal-cordova-plugin",
+        "clobbers": [
+            "OneSignal"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -551,7 +559,8 @@ module.exports.metadata =
     "cordova-plugin-statusbar": "2.1.3",
     "cordova-plugin-vibration": "2.1.5",
     "cordova-plugin-whitelist": "1.2.2",
-    "cordova-plugin-spinner": "1.1.0"
+    "cordova-plugin-spinner": "1.1.0",
+    "onesignal-cordova-plugin": "2.2.5"
 };
 // BOTTOM OF METADATA
 });
