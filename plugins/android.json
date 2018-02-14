@@ -52,6 +52,9 @@
     "cordova-plugin-network-information": {
       "PACKAGE_NAME": "com.phonegap.helloworld"
     },
+    "cordova-plugin-spinner": {
+      "PACKAGE_NAME": "com.phonegap.helloworld"
+    },
     "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "com.phonegap.helloworld"
     },
@@ -64,17 +67,11 @@
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.phonegap.helloworld"
     },
-    "cordova-plugin-spinner": {
-      "PACKAGE_NAME": "com.phonegap.helloworld"
-    },
     "onesignal-cordova-plugin": {
       "PACKAGE_NAME": "com.phonegap.helloworld"
     }
   },
   "dependent_plugins": {
-    "cordova-plugin-compat": {
-      "PACKAGE_NAME": "com.phonegap.helloworld"
-    },
     "cordova-plugin-file": {
       "PACKAGE_NAME": "com.phonegap.helloworld"
     }

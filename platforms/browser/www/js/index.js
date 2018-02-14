@@ -53,7 +53,6 @@ var app = {
     .startInit("cd4027d0-3464-4b8f-8abb-f21d9660ad75")
     .handleNotificationOpened(notificationOpenedCallback)
     .endInit();
-    console.log('enviada')
         $('#logout').click(function(){
          
             localStorage.removeItem('token');
