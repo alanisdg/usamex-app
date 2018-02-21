@@ -42,12 +42,13 @@
 
  <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
             <link rel="stylesheet" href="css/jqm-demos.css">
-            <link rel="stylesheet" href="css/index.css">
+            
             <link rel="stylesheet" href="css/fonts2.css">
             <link rel="stylesheet" href="css/rotate.css">
             <link rel="shortcut icon" href="../favicon.ico">
               
             <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">
+            <link rel="stylesheet" href="css/index.css">
                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5unzpQgOVgur7TbgtMpBdMKM7c7XGzWw" type="text/javascript"></script>
             <script src="js/jquery.js"></script> 
             <script src="js/jquery-mobile.js"></script>
@@ -59,7 +60,7 @@
             <script src="js/markerAnimate.js"></script>
             <script src="js/jquery.easing.1.3.js"></script>
             <script src="js/mrklbl.js"></script>
-            <script src="js/index.js"></script> 
+           
             <script src="js/markerclusterer.js"></script> 
             
             
@@ -69,9 +70,10 @@
 
         <div data-role="page" class="login_page" id="login">
         <div class="loading none">Loading&#8230;</div>
-        <div data-role="header"><h1>Iniciar Sesions 3</h1></div>
+        
         <div data-role="content">
             <div id="container-login">
+                <div style="text-align: center"><img style="width: 175px" src="img/logo.png"></div>
                 <p id="bad" class="none">Correo o contraseña incorrectos</p>
                 <label class="label" for="text-basic">Correo:</label>
                 <input type="text" name="text-basic" id="mail" value="">
@@ -110,8 +112,8 @@
     </div> -->
 
     <div data-role="page" id="home"  data-url="demo-page">
-    <div data-role="header" >
-        <h1>Express 57</h1>
+    <div data-role="header" style="background-color: #dadada" >
+        <h1><img style="width:110px" src="img/logo_xs.png" ></h1>
         <a href="#left-panel" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Menu</a>
     </div><!-- /header -->
     <div data-role="content">
@@ -142,31 +144,24 @@
 </div>
 
     <div data-role="page" id="showDevice">
-        <div data-role="header"><a href="#home" data-icon="carat-l" data-iconpos="notext" data-shadow="false" data-iconshadow="false"></a><h1>USAMEX</h1></div>
+        <div data-role="header" style="background-color: #dadada"><a href="#home" data-icon="carat-l" data-iconpos="notext" data-shadow="false" data-iconshadow="false"></a><h1><img style="width:110px" src="img/logo_xs.png" ></h1></div>
         <div id="map" style="height:400px; width:100%"></div> 
         <div id="contentDevice">
-            <table class="infoTable">
-                <tr>
-                    <td>
-                        <span class="title">Equipo:</span>
-                        <span class="subtitle" id="name"></span>
-                    </td>
-                    <td>
-                        <span id="engine"></span> 
-                    </td>
-                    <td>
-                        <span id="stop"> </span> 
-                    </td>
-                    <td><span id="unplugged"></span></td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="title">Velocidad: </span>
-                        <span class="subtitle" id="speed"></span>
-                    </td>
-                    <td colspan="3"><p id="time"></p></td>
-                </tr>
-            </table>
+        <div class="ui-grid-a">
+<div class="ui-block-a">
+    <div class="ui-bar ui-bar-a" style="height:60px"><p class="subtitle" id="name"></p></div>
+    </div>
+<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:60px"><p id="time"></p></div></div>
+</div>
+ <div class="ui-grid-a">
+<div class="ui-block"><div class="ui-bar ui-bar-a" style="height:60px">
+    <span id="engine"></span> 
+     <span id="stop"> </span>
+     <span id="unplugged"></span> 
+     <span  id="speed">
+</div></div> 
+</div>
+            
         </div>
     </div>
     <script type="text/javascript" src="cordova.js"></script>

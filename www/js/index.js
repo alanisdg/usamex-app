@@ -63,7 +63,7 @@ var app = {
                 type:'POST',
                 data: { token: localStorage.token },
                 success: function(r){
-                alert(r) 
+                 
                     console.log(r)
                     
                      
@@ -87,8 +87,8 @@ var app = {
  m = []
                 mwl = []
 function getLoggin(token,callback){
-    console.log('enviando post login')
-    console.log(token)
+    //console.log('enviando post login')
+    //console.log(token)
     $('.loading').removeClass('none');
     $.ajax({ 
         url:'http://usamexgps.com/api/user',
@@ -163,7 +163,7 @@ $(function() {
 }); 
 
     function printData(data){ 
-        //console.log(data)
+        console.log(data['user'].client_id)
         $.each(data['devices'],function(dev, device){
             if(device.type_id == 1){
                     sendTo = 'devicesList'
@@ -207,7 +207,7 @@ $(function() {
                                   textAlign: "center",
                                   opacity:0.75
                                   ,fontSize: "8pt"
-                                  ,width: "100px"
+                                  ,width: "80px"
                                  }
                                 ,disableAutoPan: true
                                 ,pixelOffset: new google.maps.Size(-25, 0)
@@ -270,15 +270,15 @@ $(function() {
                 if(device.unplugged == 0)  {
                     unplugged = '<span data-toggle="tooltip" data-placement="top" title="Equipo desconectado"  class="glyphicon unplugged'+device.id+' icon-plug red  none " aria-hidden="true"></span>' 
                 } 
-
+ 
                 if(device.unplugged == 1)  {
                     unplugged = '<span data-toggle="tooltip" data-placement="top" title="Equipo desconectado"  class="glyphicon unplugged'+device.id+' icon-plug red   " aria-hidden="true"></span>' 
                 } 
-                                    
+                speed = '<span style="font-size:12px; color:grey " class="speed'+device.id+'">'+device.lastpacket.speed  + ' km/h </span>'         
               //  '<li><div class="left"><a lat="'+device.lastpacket.lat+'"  lng="'+device.lastpacket.lng+'" name="'+device.name+'"  device_id="'+device.id+'"  class="seeDevice"   >'+device.name+'</div><div class="right">'+engine+movement+' <span class="'+class_timer+' time'+device.id+'">'+a+'</span>  </div></a> </li>'
 
                 //console.log(engine)
-                $('#'+sendTo).append('<li><a class="dev'+device.id+' seeDevice seeDeviceStyle '+device.id+'" unplugged="'+device.unplugged+'" head="'+device.lastpacket.heading+'" stop="'+device.stop+'" engine="'+device.engine+'" lat="'+device.lastpacket.lat+'" speed="'+device.lastpacket.speed+'"  lng="'+device.lastpacket.lng+'" time="'+device.lastpacket.updateTime+'" name="'+device.name+'"  device_id="'+device.id+'"  > <span class="device_name"> '+device.name+' </span> '+engine+ ' ' + movement+' '+unplugged+' <span class="'+class_timer+' eltime time'+device.id+'">'+a+'</span> </a></li>')
+                $('#'+sendTo).append('<li><a class="dev'+device.id+' seeDevice seeDeviceStyle '+device.id+'" unplugged="'+device.unplugged+'" head="'+device.lastpacket.heading+'" stop="'+device.stop+'" engine="'+device.engine+'" lat="'+device.lastpacket.lat+'" speed="'+device.lastpacket.speed+'"  lng="'+device.lastpacket.lng+'" time="'+device.lastpacket.updateTime+'" name="'+device.name+'"  device_id="'+device.id+'"  > <span class="device_name"> '+device.name+' </span> '+engine+ ' ' + movement+ ' '+ speed+' '+unplugged+' <span class="'+class_timer+' eltime time'+device.id+'">'+a+'</span> </a></li>')
                 if(status_time == 'days'){
 
                 }else{
@@ -371,13 +371,15 @@ function go(data){
 
 var socket = io.connect('http://usamexgps.com:3000');
      
-socket.on('message1', function (data) {
+socket.on('message'+data['user'].client_id, function (data) {
+    console.log('va')
     device_id =   data.device_id
     go(data)
     if(device_id == '261'){
         console.log('$(".time'+device_id+'").timer("remove")')
         console.log('$(".time'+device_id+'").timer()')
     }
+    $(".speed"+device_id).html(data.Speed + ' km/h');
     $(".time"+device_id).timer('remove');
     $(".time"+device_id).timer(); 
     $(".time"+device_id).removeClass('red'); 

@@ -21,7 +21,18 @@
 .ui-header .ui-title{
     padding: 12px 0;
 }
-
+.ui-header, .ui-footer {
+    border-width: 0;
+    border-style: solid;
+    position: relative;
+}
+.ui-bar-a, .ui-page-theme-a .ui-bar-inherit, html .ui-bar-a .ui-bar-inherit, html .ui-body-a .ui-bar-inherit, html body .ui-group-theme-a .ui-bar-inherit {
+    background-color: #1d1c1c;
+    border-color:none;
+    color: #7d7d7d;
+    text-shadow: none;
+    /* font-weight: 700; */
+}
 /* Absolute Center Spinner */
 .loading {
   position: fixed;
@@ -144,15 +155,24 @@
   }
 }
  .ui-page{
-    background-color: #1a1e24;
+    background-color: #d6d6d6;
  }
+ .ui-mobile label, div.ui-controlgroup-label {
+    font-weight: 400;
+    font-size: 14px;
+    color: #777777;
+}
+.ui-input-text input, .ui-input-search input {
+    margin: 0;
+    color: #949494;
+    }
  .label{
         color: white;
     padding-top: 10px;
  }
 .loginbutton{
     margin: 15px 0;
-    background-color: #008aff !important;
+    background-color: #434444 !important;
     color: white !important;
     text-shadow: none !important;
     border: none !important;
@@ -273,15 +293,27 @@ as the panel before opening the panel. */
 .icon-arrow-circle-up {
     display: inline-block;
 }
+#speed{
+  font-size: 16px;
+}
 
 .device_name{
     width: 98px;
     display: inline-block;
     overflow: hidden;
 }
+
+
+.ui-bar-a, .ui-page-theme-a .ui-bar-inherit, html .ui-bar-a .ui-bar-inherit, html .ui-body-a .ui-bar-inherit, html body .ui-group-theme-a .ui-bar-inherit {
+    background-color: #252b33
+    }
+
+    .ui-bar-a {
+    border-width: 1px;
+    border: 1px solid #20242b !important;
+}
 #contentDevice{
         padding: 15px;
-        background: #252b33 !important;
     color: white
 }
 .right{
@@ -294,7 +326,7 @@ as the panel before opening the panel. */
 #container-login{
         width: 75%;
     /* top: 98px; */
-    margin: 80px auto;
+    margin: 45px auto;
 }
 #bad{
     color: red
@@ -303,9 +335,7 @@ as the panel before opening the panel. */
         color: grey;
     font-size: 12px;
 }
-.ui-content {
-    background: #1a1e24
-}
+ 
 .none{
     display: none !important;
 }
